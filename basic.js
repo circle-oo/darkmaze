@@ -6,6 +6,11 @@ import Stats from 'three/examples/jsm/libs/stats.module'
 const scene = new THREE.Scene();
 scene.add(new THREE.AxesHelper(5))
 
+
+const renderer = new THREE.WebGLRenderer({ antialias: true });
+renderer.setSize(window.innerWidth, window.innerHeight);
+document.body.appendChild(renderer.domElement);
+
 const camera = new THREE.PerspectiveCamera(
     75,
     window.innerWidth / window.innerHeight,
@@ -13,11 +18,33 @@ const camera = new THREE.PerspectiveCamera(
     1000
 );
 camera.position.y = 1;
-camera.position.z = 2;
 
-const renderer = new THREE.WebGLRenderer();
-renderer.setSize(window.innerWidth, window.innerHeight);
-document.body.appendChild(renderer.domElement);
+const cameraLight = new THREE.SpotLight(0xffffff, 6);
+cameraLight.castShadow = true;
+
+cameraLight.shadow.bias = -0.0001;
+cameraLight.shadow.mapSize.width = 512 / 4 * renderer.capabilities.maxTextures; // default
+cameraLight.shadow.mapSize.height = 512 / 4 * renderer.capabilities.maxTextures; // default
+cameraLight.shadow.camera.near = 0.1; // default
+cameraLight.shadow.camera.far = 500; // default
+
+var d = 32;
+
+cameraLight.shadow.camera.left = -d;
+cameraLight.shadow.camera.right = d;
+cameraLight.shadow.camera.top = d;
+cameraLight.shadow.camera.bottom = -d;
+
+cameraLight.visible = true;
+cameraLight.distance = 10;
+cameraLight.decay = 1;
+cameraLight.angle = Math.PI / 4;
+cameraLight.penumbra = 0.1;
+
+camera.add(cameraLight);
+cameraLight.position.set(0, 0, 1);
+scene.add(camera);
+cameraLight.target = camera;
 
 const controls = new PointerLockControls(camera, renderer.domElement)
 //controls.addEventListener('change', () => console.log("Controls Change"))
@@ -34,9 +61,8 @@ controls.addEventListener('lock', () => (menuPanel.style.display = 'none'))
 controls.addEventListener('unlock', () => (menuPanel.style.display = 'block'))
 
 const planeGeometry = new THREE.PlaneGeometry(100, 100, 50, 50);
-const material = new THREE.MeshBasicMaterial({
-    color: 0xffffff,
-    wireframe: true,
+const material = new THREE.MeshStandardMaterial({
+    color: 0x0f0f0f
 })
 const plane = new THREE.Mesh(planeGeometry, material);
 plane.rotateX(-Math.PI / 2);
