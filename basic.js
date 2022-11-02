@@ -1,7 +1,7 @@
 // import * as THREE from "three";
-import * as THREE from "three";
-import { PointerLockControls } from 'three/examples/jsm/controls/PointerLockControls';
-import Stats from 'three/examples/jsm/libs/stats.module'
+import * as THREE from 'https://unpkg.com/three/build/three.module.js'
+import { PointerLockControls } from 'https://unpkg.com/three/examples/jsm/controls/PointerLockControls';
+import Stats from 'https://unpkg.com/three/examples/jsm/libs/stats.module'
 
 const scene = new THREE.Scene();
 scene.add(new THREE.AxesHelper(5))
@@ -91,7 +91,7 @@ function onWindowResize() {
     camera.aspect = window.innerWidth / window.innerHeight;
     camera.updateProjectionMatrix();
     renderer.setSize(window.innerWidth, window.innerHeight);
-    renderer();
+    render();
 }
 
 // const stats = Stats();
