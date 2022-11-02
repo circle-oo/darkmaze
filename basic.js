@@ -1,7 +1,6 @@
 // import * as THREE from "three";
-import * as THREE from 'https://unpkg.com/three/build/three.module.js'
-import { PointerLockControls } from 'https://unpkg.com/three/examples/jsm/controls/PointerLockControls';
-import Stats from 'https://unpkg.com/three/examples/jsm/libs/stats.module'
+import * as THREE from 'three'
+import { PointerLockControls } from 'PointerLockControls'
 
 const scene = new THREE.Scene();
 scene.add(new THREE.AxesHelper(5))

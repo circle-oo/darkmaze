@@ -4,13 +4,21 @@
 <head>
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <link rel="stylesheet" href="basic.css">
-    <script type="module" src="basic.js" defer></script>
+    <script type="importmap">
+        {
+            "imports": {
+                "three": "https://unpkg.com/three/build/three.module.js",
+                "PointerLockControls": "https://unpkg.com/three/examples/jsm/controls/PointerLockControls.js"
+            }
+        }
+    </script>
 </head>
 
 <body>
     <div id="webgl">
         <button id="start">Click to Start</button>
     </div>
+    <script type='module' src="basic.js" defer></script>
 </body>
 
 </html>
