@@ -42,7 +42,7 @@ cameraLight.penumbra = 0.1;
 cameraLight.position.set(0, 0.8, -0.1);
 camera.add(cameraLight)
 camera.add(cameraLight.target);
-cameraLight.target.position.z = -1.5;
+cameraLight.target.position.z = -2;
 scene.add(camera);
 
 const controls = new PointerLockControls(camera, renderer.domElement)
@@ -61,11 +61,20 @@ controls.addEventListener('unlock', () => (menuPanel.style.display = 'block'))
 
 const planeGeometry = new THREE.PlaneGeometry(100, 100, 50, 50);
 const material = new THREE.MeshStandardMaterial({
-    color: 0x0f0f0f
+    color: 0x0f0f0f,
+    wireframe: true
 })
 const plane = new THREE.Mesh(planeGeometry, material);
 plane.rotateX(-Math.PI / 2);
 scene.add(plane);
+const planeGeometry2 = new THREE.PlaneGeometry(100, 100, 50, 50);
+const material2 = new THREE.MeshStandardMaterial({
+    color: 0x010101,
+    // wireframe: true
+})
+const plane2 = new THREE.Mesh(planeGeometry2, material2);
+plane2.rotateX(-Math.PI / 2);
+scene.add(plane2);
 
 let moveForward = false;
 let moveBackward = false;
