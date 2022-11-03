@@ -13,18 +13,18 @@ const camera = new THREE.PerspectiveCamera(
     75,
     window.innerWidth / window.innerHeight,
     0.1,
-    1000
+    10900
 );
 camera.position.y = 1;
 
-const cameraLight = new THREE.SpotLight(0xffffff, 6);
+const cameraLight = new THREE.SpotLight(0xffffff, 10);
 cameraLight.castShadow = true;
 
 cameraLight.shadow.bias = -0.0001;
 cameraLight.shadow.mapSize.width = 512 / 4 * renderer.capabilities.maxTextures; // default
 cameraLight.shadow.mapSize.height = 512 / 4 * renderer.capabilities.maxTextures; // default
-cameraLight.shadow.camera.near = 0.1; // default
-cameraLight.shadow.camera.far = 500; // default
+cameraLight.shadow.camera.near = 0.0001; // default
+cameraLight.shadow.camera.far = 10000; // default
 
 var d = 32;
 
@@ -34,15 +34,16 @@ cameraLight.shadow.camera.top = d;
 cameraLight.shadow.camera.bottom = -d;
 
 cameraLight.visible = true;
-cameraLight.distance = 10;
+cameraLight.distance = 10000;
 cameraLight.decay = 1;
-cameraLight.angle = Math.PI / 4;
+cameraLight.angle = Math.PI / 6;
 cameraLight.penumbra = 0.1;
 
-camera.add(cameraLight);
-cameraLight.position.set(0, 0, 1);
+cameraLight.position.set(0, 0.8, -0.1);
+camera.add(cameraLight)
+camera.add(cameraLight.target);
+cameraLight.target.position.z = -1.5;
 scene.add(camera);
-cameraLight.target = camera;
 
 const controls = new PointerLockControls(camera, renderer.domElement)
 //controls.addEventListener('change', () => console.log("Controls Change"))
