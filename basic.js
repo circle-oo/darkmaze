@@ -5,7 +5,6 @@ import { PointerLockControls } from 'PointerLockControls'
 const scene = new THREE.Scene();
 scene.add(new THREE.AxesHelper(5))
 
-
 const renderer = new THREE.WebGLRenderer({ antialias: true });
 renderer.setSize(window.innerWidth, window.innerHeight);
 document.body.appendChild(renderer.domElement);
@@ -67,23 +66,44 @@ const plane = new THREE.Mesh(planeGeometry, material);
 plane.rotateX(-Math.PI / 2);
 scene.add(plane);
 
+let moveForward = false;
+let moveBackward = false;
+let moveLeft = false;
+let moveRight = false;
 const onKeyDown = function (event) {
     switch (event.code) {
         case 'KeyW':
-            controls.moveForward(0.25)
+            moveForward = true;
             break
         case 'KeyA':
-            controls.moveRight(-0.25)
+            moveLeft = true;
             break
         case 'KeyS':
-            controls.moveForward(-0.25)
+            moveBackward = true;
             break
         case 'KeyD':
-            controls.moveRight(0.25)
+            moveRight = true;
+            break
+    }
+}
+const onKeyUp = function (event) {
+    switch (event.code) {
+        case 'KeyW':
+            moveForward = false;
+            break
+        case 'KeyA':
+            moveLeft = false;
+            break
+        case 'KeyS':
+            moveBackward = false;
+            break
+        case 'KeyD':
+            moveRight = false;
             break
     }
 }
 document.addEventListener('keydown', onKeyDown, false)
+document.addEventListener('keyup', onKeyUp, false)
 
 window.addEventListener('resize', onWindowResize, false);
 function onWindowResize() {
@@ -96,11 +116,36 @@ function onWindowResize() {
 // const stats = Stats();
 // document.body.appendChild(stats.dom);
 
+let prevTime = performance.now();
+let time;
+let delta;
+let velocity = new THREE.Vector3();
+let direction = new THREE.Vector3();
+
 function animate() {
+    if (controls.isLocked === true) {
+
+        time = performance.now();
+        delta = (time - prevTime) / 1000;
+
+        velocity.x -= velocity.x * 10.0 * delta;
+        velocity.z -= velocity.z * 10.0 * delta;
+
+        direction.z = Number(moveForward) - Number(moveBackward);
+        direction.x = Number(moveLeft) - Number(moveRight);
+        direction.normalize(); // this ensures consistent movements in all directions
+
+        if (moveForward || moveBackward) velocity.z -= direction.z * 50.0 * delta;
+        if (moveLeft || moveRight) velocity.x -= direction.x * 50.0 * delta;
+
+        controls.moveRight(velocity.x * delta);
+        controls.moveForward(-velocity.z * delta);
+
+        prevTime = time;
+
+    }
     requestAnimationFrame(animate);
-    // controls.update();
     render();
-    // stats.update();
 }
 
 function render() {
