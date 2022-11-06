@@ -1,6 +1,8 @@
 // import * as THREE from "three";
 import * as THREE from 'three'
 import { PointerLockControls } from 'PointerLockControls'
+import getMaze from './maze.js'
+import { Vector3 } from 'three';
 
 const scene = new THREE.Scene();
 scene.add(new THREE.AxesHelper(5))
@@ -15,9 +17,9 @@ const camera = new THREE.PerspectiveCamera(
     0.1,
     10900
 );
-camera.position.y = 1;
+camera.position.y = 0;
 
-const cameraLight = new THREE.SpotLight(0xffffff, 10);
+const cameraLight = new THREE.SpotLight(0xffffff, 1);
 cameraLight.castShadow = true;
 
 cameraLight.shadow.bias = -0.0001;
@@ -58,6 +60,26 @@ startButton.addEventListener(
 )
 controls.addEventListener('lock', () => (menuPanel.style.display = 'none'))
 controls.addEventListener('unlock', () => (menuPanel.style.display = 'block'))
+
+const MAP_SIZE = 21;
+var greed = getMaze(MAP_SIZE);
+
+const wallMaterial = new THREE.MeshStandardMaterial( {color: 0xFFFFFF} ); //0x3C96FA
+const wallHeight = 10;
+for (var i=0; i<MAP_SIZE; i++){
+    for (var j=0; j<MAP_SIZE; j++) {
+        if (greed[i][j] == 1) {
+            console.log("construct wall ...")
+            const wallGeometry = new THREE.BoxGeometry(5, wallHeight, 5);
+            const wall = new THREE.Mesh( wallGeometry, wallMaterial);
+            wall.receiveShadow = true;
+            wall.position.x = i*5;
+            wall.position.z = j*5;
+            scene.add( wall );
+        }
+    }
+}
+
 
 const planeGeometry = new THREE.PlaneGeometry(100, 100, 50, 50);
 const material = new THREE.MeshStandardMaterial({
