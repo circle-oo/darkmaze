@@ -66,11 +66,11 @@ var greed = getMaze(MAP_SIZE);
 
 const wallMaterial = new THREE.MeshStandardMaterial( {color: 0xFFFFFF} ); //0x3C96FA
 const wallHeight = 10;
+const wallGeometry = new THREE.BoxGeometry(5, wallHeight, 5);
 for (var i=0; i<MAP_SIZE; i++){
     for (var j=0; j<MAP_SIZE; j++) {
         if (greed[i][j] == 1) {
             console.log("construct wall ...")
-            const wallGeometry = new THREE.BoxGeometry(5, wallHeight, 5);
             const wall = new THREE.Mesh( wallGeometry, wallMaterial);
             wall.receiveShadow = true;
             wall.position.x = i*5;
