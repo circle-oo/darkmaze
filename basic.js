@@ -17,7 +17,7 @@ const camera = new THREE.PerspectiveCamera(
     0.1,
     10900
 );
-camera.position.y = 0;
+camera.position.y = 5;
 
 const cameraLight = new THREE.SpotLight(0xffffff, 1);
 cameraLight.castShadow = true;
@@ -74,6 +74,7 @@ for (var i=0; i<MAP_SIZE; i++){
             const wall = new THREE.Mesh( wallGeometry, wallMaterial);
             wall.receiveShadow = true;
             wall.position.x = i*5;
+            wall.position.y = 5;
             wall.position.z = j*5;
             scene.add( wall );
         }
