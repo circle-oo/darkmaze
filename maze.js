@@ -50,7 +50,7 @@ function makePath(greed, myX, myY, pathDirection, map_size){
 	for(var i=0; i<3; i++){
 		checkX = myX;
 		checkY = myY;
-	    wallX = myX;
+	        wallX = myX;
 		wallY = myY;
 
 		switch(directions[i]){
